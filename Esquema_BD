@@ -1,0 +1,57 @@
+CREATE TABLE persona (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(50),
+  correo VARCHAR(100),
+  direccion VARCHAR(255),
+  rol VARCHAR(50),
+  telefono VARCHAR(20),
+  fecha_nacimiento DATE
+);
+
+CREATE TABLE usuario (
+  usuario_id SERIAL PRIMARY KEY,
+  correo VARCHAR(100),
+  contraseña VARCHAR(100),
+  FOREIGN KEY (usuario_id) REFERENCES persona(id),
+  FOREING KEY (correo) REFERENCES persona(correo)
+);
+
+CREATE TABLE cliente (
+  cliente_id SERIAL PRIMARY KEY,
+  nombre VARCHAR(50),
+  correo VARCHAR(100),
+  direccion VARCHAR(255),
+  telefono VARCHAR(20),
+  cita_id INT,
+  FOREIGN KEY (cliente_id) REFERENCES persona(id),
+  FOREING KEY (nombre) REFERENCES persona(nombre)
+);
+
+CREATE TABLE cita (
+  cita_id SERIAL PRIMARY KEY,
+  cliente_id INT,
+  fecha DATE,
+  hora TIME,
+  doctor_id INT,
+  estado VARCHAR(20),
+  motivo VARCHAR(255),
+  FOREIGN KEY (cita_id) REFERENCES cliente(cita_id)
+  FOREIGN KEY (cliente_id) REFERENCES cliente(cliente_id),
+  FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+);
+CREATE TABLE doctor (
+  doctor_id SERIAL PRIMARY KEY,
+  id INT,
+  nombre_doctor VARCHAR(50),
+  especialidad VARCHAR(50),
+  FOREIGN KEY (doctor_id) REFERENCES persona(id),
+  FOREIGN KEY (nombre_doctor) REFERENCES persona(nombre)
+);
+
+CREATE TABLE historia_clinica (
+  historia_id SERIAL PRIMARY KEY,
+  cliente_id INT,
+  diagnostico VARCHAR(255),
+  FOREIGN KEY (motivo) REFERENCES cita(motivo),
+  FOREING KEY (cliente_id ) REFERENCES cliente(cliente_id)
+);
