@@ -1,0 +1,53 @@
+drop table historial;
+drop table cita;
+drop table doctor;
+drop table cliente;
+drop table usuarios;
+drop table persona;
+
+CREATE TABLE persona(
+	id NUMERIC(4) PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL,
+	correo VARCHAR(100),
+	direccion VARCHAR(100),
+	telefono VARCHAR(20),
+	fecha_nacimiento DATE TIME
+);
+
+CREATE TABLE Usuarios (
+	user_id NUMERIC(4) PRIMARY KEY,
+	contraseña VARCHAR(100),
+	FOREIGN KEY (user_id) REFERENCES persona(id)
+);
+
+CREATE TABLE cliente (
+	cliente_id NUMERIC(4) PRIMARY KEY,
+	FOREIGN KEY (cliente_id) REFERENCES persona(id) 
+);
+
+CREATE TABLE doctor (
+  	doctor_id NUMERIC(4) PRIMARY KEY,
+  	especialidad VARCHAR(50),
+  	FOREIGN KEY (doctor_id) REFERENCES persona(id)
+);
+
+CREATE TABLE cita (
+  	cita_id NUMERIC(4) PRIMARY KEY,
+  	fecha DATE,
+  	hora TIME,
+	doc_id NUMERIC(4),
+	estado VARCHAR(20),
+  	motivo VARCHAR(255),
+	cli_id NUMERIC(4),
+  	FOREIGN KEY (doc_id) REFERENCES doctor(doctor_id),
+	FOREIGN KEY (cli_id) REFERENCES cliente(cliente_id)
+);
+
+CREATE TABLE historial (
+  	his_id NUMERIC(4) PRIMARY KEY,
+  	diagnostico VARCHAR(500),
+  	clien_id NUMERIC(4),
+	cit_id NUMERIC(4),
+	FOREIGN KEY (clien_id) REFERENCES cliente(cliente_id),
+	FOREIGN KEY (cit_id) REFERENCES cita(cita_id)
+);
